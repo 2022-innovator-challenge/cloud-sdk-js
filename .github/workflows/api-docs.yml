@@ -24,18 +24,3 @@ jobs:
           HostName github.com
           IdentityFile ~/.ssh/id_rsa
           EOT
-      - name: Push generated API documentation to the SAP/cloud-sdk repo
-        env:
-          USE_SSH: true
-          GIT_USER: cloud-sdk-js
-        run: |
-          git config --global user.email "cloud-sdk-js@github.com"
-          git config --global user.name "cloud-sdk-js"
-          set -x
-          cd ..
-          git clone --depth 1 git@github.com:SAP/cloud-sdk.git
-          rsync -avz cloud-sdk-js/docs/api/ cloud-sdk/static/api/
-          cd cloud-sdk
-          git add -A
-          git commit -a -m "Update SAP Cloud SDK for JavaScript API documentation" || exit 0
-          git push
